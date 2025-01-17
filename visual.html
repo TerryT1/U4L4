@@ -1,0 +1,42 @@
+<script>
+  async function getData() {
+      const response = await fetch('sample.csv');
+      const data = await response.text();
+      
+      const rows = data.split("\n").slice(1);
+      const labels = [];
+      const counts = [];
+
+      rows.forEach((elem) => {
+          const row = elem.split(",");
+          const date = row[2];
+          const count = parseInt(row[3]);
+          labels.push(date);
+          counts.push(count);
+      });
+
+      const ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'Bicycle Counts on 01/01/2024',
+                  data: counts,
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  fill: false,
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+  }
+
+  getData();
+</script>
